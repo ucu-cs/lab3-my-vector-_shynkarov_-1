@@ -18,6 +18,25 @@ TEST(MyVectorBasic, DefaultCtor) {
     EXPECT_EQ(v.size(), 0u);
 }
 
+TEST(MyVectorSpecial, MoveAssignment) {
+  my_vector<int> a{1,2,3}, b;
+  b = std::move(a);
+  EXPECT_EQ(b.size(), 3u);
+  EXPECT_TRUE(a.is_empty());
+}
+
+TEST(MyVectorModifiers, EmplaceBack) {
+  my_vector<std::pair<int,int>> v;
+  v.emplace_back(42, 7);
+  EXPECT_EQ(v.back(), std::make_pair(42,7));
+}
+
+TEST(MyVectorIterators, ReverseIterators) {
+  my_vector<int> v{1,2,3};
+  std::vector<int> rev{v.rbegin(), v.rend()};
+  EXPECT_EQ(rev, std::vector<int>({3,2,1}));
+}
+
 TEST(MyVectorBasic, InitializerList) {
     my_vector<int> v{1, 2, 3, 4};
     EXPECT_EQ(v.size(), 4u);
